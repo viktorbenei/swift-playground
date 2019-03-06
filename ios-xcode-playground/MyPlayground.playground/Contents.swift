@@ -9,6 +9,10 @@ print("The string: \(str).")
 // From: https://www.gabethecoder.com/swift-http-requests/
 //
 
+struct ResponseModel: Decodable {
+    let message: String
+}
+
 func testFn() {
     print("1")
     guard let url = URL(string: "https://api.bitrise.io") else { return print("URL Error") }
@@ -19,8 +23,14 @@ func testFn() {
         guard error == nil else { return print("Network Error: \(error)") }
         
         if data != nil {
-            let data = String(bytes: data!, encoding: String.Encoding.utf8)
-            print("data: \(data!)")
+            let dataStr = String(bytes: data!, encoding: String.Encoding.utf8)
+            print("dataStr: \(dataStr!)")
+            
+            guard let respObj = try? JSONDecoder().decode(ResponseModel.self, from: data!) else {
+                print("Failed to decode")
+                return
+            }
+            print("respObj: \(respObj)")
         } else {
             print("data was nil")
         }
