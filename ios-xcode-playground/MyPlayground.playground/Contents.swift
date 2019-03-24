@@ -13,20 +13,28 @@ struct ResponseModel: Decodable {
     let message: String
 }
 
+func sendRequest (url: String, completion: @escaping (Data?) -> Void){
+    guard let urlObj = URL(string: url) else {
+        print("URL Error")
+        return completion(nil)
+    }
+    URLSession.shared.dataTask(with: urlObj) { data, response, error in
+        if error != nil {
+            print("Network Error: \(error)")
+            return completion(nil)
+        } else {
+            return completion(data)
+        }
+    }.resume()
+}
+
 func testFn() {
-    print("1")
-    guard let url = URL(string: "https://api.bitrise.io") else { return print("URL Error") }
-    print("2")
-    
-    let task = URLSession.shared.dataTask(with: url) { data, response, error in
-        print("3")
-        guard error == nil else { return print("Network Error: \(error)") }
-        
-        if data != nil {
-            let dataStr = String(bytes: data!, encoding: String.Encoding.utf8)
+    sendRequest(url: "https://api.bitrise.io") { data in
+        if let unwrappedData = data {
+            let dataStr = String(bytes: unwrappedData, encoding: String.Encoding.utf8)
             print("dataStr: \(dataStr!)")
             
-            guard let respObj = try? JSONDecoder().decode(ResponseModel.self, from: data!) else {
+            guard let respObj = try? JSONDecoder().decode(ResponseModel.self, from: unwrappedData) else {
                 print("Failed to decode")
                 return
             }
@@ -35,9 +43,7 @@ func testFn() {
             print("data was nil")
         }
     }
-    task.resume()
-    print("-")
 }
 
 testFn()
-print("done")
+print("--DONE--")
