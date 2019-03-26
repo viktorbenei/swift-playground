@@ -34,7 +34,7 @@ final class CommandLineToolTests: XCTestCase {
   func testStringToDate() throws {
     for aTC in [
       ("2019-03-20T18:07:31Z", Date(timeIntervalSince1970: 1_553_105_251)),
-      ("2019-03-20T18:07:31Z", Date(timeIntervalSince1970: 0)),
+      ("1970-01-01T00:00:00Z", Date(timeIntervalSince1970: 0)),
     ] {
       XCTAssertEqual(aTC.1, aTC.0.toDate())
     }

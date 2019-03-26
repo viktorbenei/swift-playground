@@ -43,7 +43,7 @@ if err != nil {
     exit(2)
 }
 
-print("buildList: \(buildList)")
+// print("buildList: \(buildList)")
 
 extension Build {
     func length() -> Int? {
@@ -89,6 +89,8 @@ func calculateMetrics(builds: [Build]) -> BuildMetrics {
     return BuildMetrics(min: min ?? 0, max: max ?? 0, count: count, avg: Double(sum) / Double(count))
 }
 
-print("calculateMetrics: \(calculateMetrics(builds: buildList))")
+print()
+print("Metrics: \(calculateMetrics(builds: buildList))")
+print()
 
 print("--DONE--")

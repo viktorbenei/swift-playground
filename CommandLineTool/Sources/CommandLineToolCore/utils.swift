@@ -12,7 +12,7 @@ public extension String {
         dateFormatter.calendar = Calendar(identifier: .gregorian)
         dateFormatter.dateFormat = format
         let date = dateFormatter.date(from: self)
-        
+
         return date
     }
 }
@@ -88,8 +88,8 @@ public func fetchBuildStatsFor(appID: String) -> ([Build], APIError?) {
             }
 
             if let unwrappedData = data {
-                let dataStr = String(bytes: unwrappedData, encoding: String.Encoding.utf8)
-                print("dataStr: \(dataStr!)")
+                // let dataStr = String(bytes: unwrappedData, encoding: String.Encoding.utf8)
+                // print("dataStr: \(dataStr!)")
 
                 do {
                     let decoder = JSONDecoder()
